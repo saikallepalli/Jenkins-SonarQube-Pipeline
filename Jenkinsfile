@@ -2,10 +2,9 @@ node('master') {
     def myMavenContainer = docker.image('maven')
     myMavenContainer.pull()
 
-    stage('checkout scm') {
-        checkout([$class: 'GitSCM', branches: [[name: '*/master']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[url: 'https://github.com/spring-projects/spring-petclinic.git']]])
+    stage('Checkout') {
+        checkout scm
     }
-
     stage('maven build') {
       myMavenContainer.inside() {
         sh 'mvn clean install -Dmaven.test.skip=true'

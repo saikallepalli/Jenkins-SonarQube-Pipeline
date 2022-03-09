@@ -2,12 +2,10 @@ node('master') {
     def myMavenContainer = docker.image('maven')
     myMavenContainer.pull()
 
-    stages {
-        stage('Checkout Code') {
-            steps {
-                checkout scm
-            }
-        }
+    stage('checkout scm') {
+        checkout([$class: 'GitSCM', branches: [[name: '*/master']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: 
+                  [[url: 'https://github.com/saikallepalli/spring-petclinic-app-deploy.git']]])
+    }
         
     stage('maven build') {
       myMavenContainer.inside() {

@@ -8,16 +8,7 @@ node('master') {
                 checkout scm
             }
         }
-        stage('Build Docker Container') {
-            steps {
-                script {
-                    sh "ls -ltr"
-                    env.HARBORHOST ="harbour.com"
-                    env.REGISTRY = "securewbs"
-                    env.IMAGE = "${env.HARBORHOST}/${env.REGISTRY}/securewbs:${env.BUILD_NUMBER}"
-                    wbs = docker.build("${env.IMAGE}")
-                }
-            }
+        
     stage('maven build') {
       myMavenContainer.inside() {
         sh 'mvn clean install -Dmaven.test.skip=true'
